@@ -1,0 +1,2 @@
+Zadanie
+Stwórz aplikację do zamawiania jedzenia na wynos.

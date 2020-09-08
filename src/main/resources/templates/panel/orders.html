@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">">
+<head>
+    <meta charset="UTF-8">
+    <title>Zamówienie</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+    <link rel="stylesheet" href="/static/main.css" th:href="@{/main.css}">
+</head>
+<body>
+<div class="container">
+    <div class="jumbotron home-jumbo">
+        <div class="container text-center text-white jumbo-container ">
+            <div>
+                <h1 class="display-3">Twoje zamówienie</h1>
+            </div>
+            <a th:href="@{/}">Powrót do strony głównej</a>
+        </div>
+    </div>
+    <div>
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center mb-2">
+                    <a href="#"
+                       th:href="@{/panel/zamowienia(status=${T(pl.javastart.spring_mvc.foodieapp.order.Status).NEW.name()})}"
+                       class="btn btn-warning mx-1">Nowe</a>
+                    <a href="#"
+                       th:href="@{/panel/zamowienia(status=${T(pl.javastart.spring_mvc.foodieapp.order.Status).IN_PROGRESS.name()})}"
+                       class="btn btn-primary mx-1">W realizacji</a>
+                    <a href="#"
+                       th:href="@{/panel/zamowienia(status=${T(pl.javastart.spring_mvc.foodieapp.order.Status).COMPLETE.name()})}"
+                       class="btn btn-success mx-1">Zrealizowane</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 offset-3" th:if="${!orders.isEmpty()}">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Adres</th>
+                <th scope="col">Telefon</th>
+                <th scope="col">Status</th>
+                <th scope="col">Edycja</th>
+            </tr>
+            </thead>
+            <tbody th:remove="all-but-first">
+            <tr th:each="order:${orders}">
+                <th scope="row" th:text="${order.id}">1</th>
+                <td th:text="${order.address}">adres</td>
+                <td th:text="${order.telephone}">666-666-666</td>
+                <th:block th:switch="${order.status}">
+                    <td th:case="${T(pl.javastart.spring_mvc.foodieapp.order.Status).NEW}">Nowe</td>
+                    <td th:case="${T(pl.javastart.spring_mvc.foodieapp.order.Status).IN_PROGRESS}">W realizacji</td>
+                    <td th:case="${T(pl.javastart.spring_mvc.foodieapp.order.Status).COMPLETE}">Zrealizowane</td>
+                </th:block>
+                <td>
+                    <a href="#" th:href="@{|zamowienie/${order.id}|}" class="btn btn-primary">Edytuj</a>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <th scope="row">adres</th>
+                <th scope="row">666-666-666</th>
+            </tr>
+            <th scope="row">3</th>
+            <th scope="row">adres</th>
+            <th scope="row">666-666-666</th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${orders.isEmpty()}" class="text-center">
+        <h2>Brak zamówień</h2>
+    </div>
+</div>
+</body>
+</html>

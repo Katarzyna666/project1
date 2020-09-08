@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">">
+<head>
+    <meta charset="UTF-8">
+    <title>Zamówienie</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+    <link rel="stylesheet" href="/main.css" th:href="@{/main.css}">
+</head>
+<body>
+<div class="container">
+    <div class="jumbotron home-jumbo">
+        <div class="container text-center text-white jumbo-container ">
+            <div>
+                <h1 class="display-3">Twoje zamówienie</h1>
+            </div>
+            <a th:href="@{/}">Powrót do strony głównej</a>
+        </div>
+    </div>
+    <div class="col-6 offset-3" th:if="${!order.items.isEmpty()}">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nazwa</th>
+                <th scope="col">Cena</th>
+            </tr>
+            </thead>
+            <tbody th:remove="all-but-first">
+            <tr th:each="item, idx:${order.items}">
+                <th scope="row" th:text="${idx.index+1}">1</th>
+                <th scope="row" th:text="${item.name}">Pizza</th>
+                <th scope="row" th:text="${item.price}">32</th>
+            </tr>
+            <tr th:each="item, idx:${order.items}">
+                <th scope="row">2</th>
+                <th scope="row">Deser</th>
+                <th scope="row">32</th>
+            </tr>
+            <tr th:each="item, idx:${order.items}">
+                <th scope="row">3</th>
+                <th scope="row">zupa</th>
+                <th scope="row">32</th>
+            </tr>
+            </tbody>
+        </table>
+        <div class="text-right">
+            <h5 th:text="|Suma do zapłaty:${#numbers.formatDecimal(sum,1,2,'COMMA')}zł|">99,9</h5>
+        </div>
+        <form method="post" th:action="@{/zamowienie/realizuj}">
+            <div class="form-group">
+                <label for="addressInput">Adres</label>
+                <input type="text" class="form-control" id="addressInput" name="address" placeholder="Krzycka 19b">
+            </div>
+            <div class="form-group">
+                <label for="telephoneInput">Telefon</label>
+                <input type="text" class="form-control" id="telephoneInput" name="telephone" placeholder="666-666-666">
+            </div>
+            <div class="text-center">
+                <button class="btn btn-primary">Zamów</button>
+            </div>
+        </form>
+        <div th:if="${order.getItems().isEmpty()}" class="text-center">
+            <div class="text-center">Twoje zamówienie jest puste</div>
+            <a href="#" th:href="@{/}">Dodaj coś do zamówienia</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
